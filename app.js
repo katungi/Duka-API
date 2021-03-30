@@ -1,13 +1,38 @@
 const express = require('express');
 const app = express();
-
+const morgan = require('morgan');
+const mongoose = require('mongoose');
 require('dotenv/config');
 
 // middleware
 
 app.use(express.json());
+app.use(morgan('tiny'));
+
+// model
+
+const productSchema = mongoose.Schema({
+  name: String,
+  image: String,
+  countInStock: Number,
+});
+
+const Product = mongoose.model('Product', productSchema);
 
 const api = process.env.API_URL;
+
+mongoose
+  .connect(process.env.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'eshop',
+  })
+  .then(() => {
+    console.log('DB connected....');
+  })
+  .catch(() => {
+    console.log(err);
+  });
 
 app.get(`${api}/products`, (req, res) => {
   const product = {
