@@ -34,18 +34,31 @@ mongoose
     console.log(err);
   });
 
-app.get(`${api}/products`, (req, res) => {
-  const product = {
-    id: 1,
-    name: 'hair dresser',
-    image: 'some_url',
-  };
-  res.send(product);
+app.get(`${api}/products`, async (req, res) => {
+  const productList = await Product.find();
+  res.send(productList);
 });
 
 app.post(`${api}/products`, (req, res) => {
-  const newProduct = req.body;
-  console.log(newProduct);
+  const product = new Product({
+    name: req.body.name,
+    image: req.body.image,
+    countInStock: req.body.countInStock,
+  });
+
+  product
+    .save()
+    .then((createdProduct) => {
+      res.status(201).json(createdProduct);
+      console.log('Created new product');
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+        success: false,
+      });
+    });
+  // console.log(newProduct);
   // res.send(product);
 });
 
