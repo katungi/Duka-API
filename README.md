@@ -11,9 +11,9 @@ It is a fully functioning backend
 We can have different types of commit messages. Let's add them here:
 
 - Chore 🌮
-- Feature
-- Bug
-- Improvement
+- Feature 🤖
+- Bug 🐛
+- Improvement ☸️
 
 ## Remarks
 
