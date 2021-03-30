@@ -13,7 +13,7 @@ We can have different types of commit messages. Let's add them here:
 - Chore 🌮
 - Feature 🎀
 - Bug 🐛
-- Improvement
+- Improvement 🤖
 
 ## Remarks
 
