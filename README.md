@@ -11,10 +11,10 @@ It is a fully functioning backend
 We can have different types of commit messages. Let's add them here:
 
 - Chore 🌮
-- Feature 🤖
+- Feature 🎀
 - Bug 🐛
-- Improvement ☸️
+- Improvement
 
 ## Remarks
 
-I don't know what the hell I am doing soooo..
+I don't know what the hell I am doing soooo...fork at your own risk
