@@ -34,4 +34,4 @@ router.post(`/`, (req, res) => {
   // res.send(product);
 });
 
-module.export = router;
+module.exports = router;
