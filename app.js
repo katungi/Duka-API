@@ -11,7 +11,11 @@ app.use(morgan('tiny'));
 // model
 const Product = require('./models/product');
 // routes
-const productRouter = require('./routes/products');
+const productsRoutes = require('./routes/products');
+const categoriesRoutes = require('./routes/categories');
+const usersRoutes = require('./routes/users');
+const ordersRoutes = require('./routes/orders');
+
 const api = process.env.API_URL;
 
 mongoose
@@ -28,7 +32,10 @@ mongoose
   });
 
 // routes
-app.use(`${api}/products`, productRouter);
+app.use(`${api}/products`, productsRoutes);
+app.use(`${api}/categories`, categoriesRoutes);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/ordersRoutes`, ordersRoutes);
 
 app.listen(3000, () => {
   console.log(api);
