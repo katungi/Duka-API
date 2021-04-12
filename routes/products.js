@@ -4,12 +4,21 @@ const { Category } = require('../models/category');
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find();
+  const productList = await Product.find().select('name');
 
   if (!productList) {
     res.status(500).json({ success: false });
   }
   res.send(productList);
+});
+
+router.get(`/:id`, async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(500).json({ success: false });
+  }
+  res.send(product);
 });
 
 router.post(`/`, async (req, res) => {
