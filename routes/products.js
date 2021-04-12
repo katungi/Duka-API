@@ -5,7 +5,12 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
-  const productList = await Product.find();
+  // let's not forget to query by category
+  let filterByCategory = {};
+  if (req.query.categories) {
+    filterByCategory = { category: req.query.categories.split(',') };
+  }
+  const productList = await Product.find(filterByCategory).populate('category');
 
   if (!productList) {
     res.status(500).json({ success: false });
@@ -113,16 +118,19 @@ router.get(`/get/count`, async (req, res) => {
 });
 
 // let's get the featured products
-router.get(`/get/featured`, async (req, res) => {
-  const productCount = await Product.countDocuments((count) => {
-    count;
-  });
+router.get(`/get/featured/:count`, async (req, res) => {
+  // basically if you pass a count, we will display featured elements as that count, else display all
+  const count = req.params.count ? req.params.count : 0;
+  const product = await Product.find({ isFeatured: true }).limit(+count);
 
-  if (!productCount) {
+  if (!product) {
     res.status(500).json({ success: false });
   }
   res.send({
-    productCount: productCount,
+    product: product,
   });
 });
+
+// filter by category using query parameters
+
 module.exports = router;
