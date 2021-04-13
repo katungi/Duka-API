@@ -42,6 +42,5 @@ app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/ordersRoutes`, ordersRoutes);
 
 app.listen(3000, () => {
-  console.log(api);
   console.log(`running at 3000`);
 });
