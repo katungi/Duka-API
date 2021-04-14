@@ -53,4 +53,13 @@ router.get('/', async (req, res) => {
   res.status(200).send(userList);
 });
 
+router.post('/login', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return res.status(400).send('The User not found');
+  }
+
+  return res.status(200).send(user);
+});
 module.exports = router;
