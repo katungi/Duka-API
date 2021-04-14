@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-
+  const secret = process.env.secret;
   if (!user) {
     return res.status(400).send('The User not found');
   }
@@ -66,7 +66,8 @@ router.post('/login', async (req, res) => {
       {
         userId: user.id,
       },
-      'secret, you should put this in env'
+      secret,
+      {expiresIn: '1d'}
     );
     res.status(200).send({ user: user.email, token: token });
   } else {
