@@ -31,6 +31,23 @@ router.get(`/:id`, async (req, res) => {
   res.send(order);
 });
 
+router.put('/:id', async (req, res) => {
+  // only update order status
+  
+  let id = req.params.id;
+  const order = await Category.findByIdAndUpdate(
+    id,
+    {
+      status: req.body.status,
+    },
+    { new: true }
+  );
+
+  if (!order) return res.status(404).send('the order cannot be created!');
+
+  res.send(order);
+});
+
 router.post('/', async (req, res) => {
   // you have to populate order-items first as an array
   const orderItemsIds = Promise.all(
