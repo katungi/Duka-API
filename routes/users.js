@@ -89,7 +89,6 @@ router.get(`/get/count`, async (req, res) => {
   });
 });
 
-
 router.delete('/:id', (req, res) => {
   let id = req.params.id;
   User.findByIdAndRemove(id)
