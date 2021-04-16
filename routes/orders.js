@@ -63,6 +63,10 @@ router.post('/', async (req, res) => {
   );
 
   const orderItemIdsResolved = await orderItemsIds;
+  const totalPrices = Promise.all(orderItemIdsResolved.map(async(orderItems)=>{
+    const orderItem = await (await OrderItem.findById(orderItemId)).populated('product', 'price');
+    const totalPrice = orderItem.product.price * orderItem.quantity;
+  }))
   let order = new Order({
     orderItems: orderItemIdsResolved,
     shippingAddress1: req.body.shippingAddress1,
