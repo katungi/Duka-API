@@ -43,7 +43,7 @@ mongoose
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/users`, usersRoutes);
-app.use(`${api}/ordersRoutes`, ordersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
 
 app.listen(3000, () => {
   console.log(`running at 3000`);
