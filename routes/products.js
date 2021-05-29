@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const router = express.Router();
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '/public/uploads');
   },
@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage: storage });
+const uploadOptions = multer({ storage: storage });
 
 router.get(`/`, async (req, res) => {
   // let's not forget to query by category
@@ -40,15 +40,17 @@ router.get(`/:id`, async (req, res) => {
   res.send(product);
 });
 
-router.post(`/`, async (req, res) => {
+router.post(`/`, uploadOptions.single('image'), async (req, res) => {
   const category = await Category.findById(req.body.category);
   if (!category) return res.status(400).send('Invalid Category');
 
+  const fileName = req.file.filename;
+  const basePath = `${req.protocol}://${req.get('host')}/public/upload/`;
   let product = Product({
     name: req.body.name,
     description: req.body.description,
     richDescription: req.body.richDescription,
-    image: req.body.image,
+    image: `${basePath}${fileName}`,
     brand: req.body.brand,
     price: req.body.price,
     category: req.body.category,
@@ -59,9 +61,7 @@ router.post(`/`, async (req, res) => {
   });
 
   product = await product.save();
-
   if (!product) return res.status(500).send('The Product cannot be created');
-
   return res.status(200).send(product);
 });
 
