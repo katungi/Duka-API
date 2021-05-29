@@ -17,4 +17,9 @@ We can have different types of commit messages. Let's add them here:
 
 ## Remarks
 
-I don't know what the hell I am doing soooo...fork at your own risk
+This is a complete Ecommerce API but it needs testing and documentation
+
+### Next Steps
+
+- Documentation using Swagger or any other tool
+- Using the API in sample apps to see if it works
