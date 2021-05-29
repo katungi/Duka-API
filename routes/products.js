@@ -5,6 +5,17 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const router = express.Router();
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/public/uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now());
+  },
+});
+
+var upload = multer({ storage: storage });
+
 router.get(`/`, async (req, res) => {
   // let's not forget to query by category
   let filterByCategory = {};
