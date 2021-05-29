@@ -56,6 +56,8 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
   const category = await Category.findById(req.body.category);
   if (!category) return res.status(400).send('Invalid Category');
 
+  const file = req.file;
+  if (!file) return res.status(400).send('No uploaded file');
   const fileName = req.file.filename;
   const basePath = `${req.protocol}://${req.get('host')}/public/upload/`;
   let product = Product({
@@ -156,6 +158,35 @@ router.get(`/get/featured/:count`, async (req, res) => {
   });
 });
 
+router.put(
+  'gallery-images/:id',
+  uploadOptions.array('images', 10),
+  async (req, res) => {
+    let id = req.params.id;
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      res.status(400).send('Invalid product ID');
+    }
+    const files = req.files;
+    let imagePaths = [];
+    const basePath = `${req.protocol}://${req.get('host')}/public/upload/`;
+    if (files) {
+      files.map((file) => {
+        imagePaths.push(`${basePath}${file.fileName}`);
+      });
+    }
+
+    const product = await Product.findByIdAndUpdate(
+      id,
+      {
+        image: imagePaths,
+      },
+      { new: true }
+    );
+    if (!product) return res.status(404).send('the Product cannot be created!');
+
+    res.send(product);
+  }
+);
 // filter by category using query parameters
 
 module.exports = router;
