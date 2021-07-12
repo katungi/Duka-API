@@ -35,7 +35,7 @@ router.put('/:id', async (req, res) => {
   // only update order status
 
   let id = req.params.id;
-  const order = await Category.findByIdAndUpdate(
+  const order = await Order.findByIdAndUpdate(
     id,
     {
       status: req.body.status,
